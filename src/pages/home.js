@@ -12,6 +12,7 @@ const Home =() => {
     return (
         <Box>
             <h1>Home</h1>
+            <Link to="/products">Productos</Link>
             <Carou />
         </Box>
     );
