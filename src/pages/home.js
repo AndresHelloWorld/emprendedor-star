@@ -15,6 +15,7 @@ const Home = () => {
         <Box>
             <h1>Home</h1>
             <Link to="/products">Productos</Link>
+            <Link to="/create">Crear</Link>
             <Box>
                 <Carou />
 
