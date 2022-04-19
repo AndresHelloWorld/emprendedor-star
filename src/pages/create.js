@@ -41,10 +41,11 @@ const Create = () => {
     const [type, setType] = React.useState("");
     const [weight, setWeight] = React.useState(0);
     const [contact, setContact] = React.useState("");
-    const [photo, setPhoto] = React.useState("");
+    const [photo, setPhoto] = React.useState();
+    const [photoUrl, setPhotoUrl] = React.useState("");
     const [skill, setSkill] = React.useState("");
     const [experience, setExperience] = React.useState("");
-    const [changeForm, setChangeForm] = React.useState(true)
+    const [selectdImg, setSelectdImg] = React.useState(false);
     const [value, setValue] = React.useState('1');
     const classs = useStyles();
 
@@ -52,8 +53,14 @@ const Create = () => {
         var collectionName = ""
         collectionName = (value === "1") ? "product" : "service"
 
+        const collectionRef = app.firestore().collection(collectionName)
+        const storageRef = app.storage().ref();
+        const archivoPath = storageRef.child(photo.name)
+        await archivoPath.put(photo)
+        const urlImgStor = await archivoPath.getDownloadURL();
         if (value === "1") {
-            const collectionRef = app.firestore().collection(collectionName)
+            setPhotoUrl(urlImgStor)
+            console.log("Archivo cargado: ", photo.name, " Url: ", urlImgStor)
             const docu = await collectionRef.doc(name).set(
                 {
                     contact: contact,
@@ -63,7 +70,8 @@ const Create = () => {
                     reference: reference,
                     size: size,
                     type: "Producto",
-                    weight: weight
+                    weight: weight,
+                    urlImage: urlImgStor
                 }
             ).catch(error => {
                 console.error(error.message)
@@ -79,6 +87,7 @@ const Create = () => {
                     skill: skill,
                     name: name,
                     type: "Servicio",
+                    urlImage: urlImgStor
                 }
             ).catch(error => {
                 console.error(error.message)
@@ -87,14 +96,9 @@ const Create = () => {
         }
     }
 
-    const handleForm = (e) => {
-        setType(e.target.value)
-        if (type = "Producto") {
-            setChangeForm(true)
-        } else {
-            setChangeForm(false)
-        }
-
+    const handleSelectdImg = (e) => {
+        setPhoto(e.target.files[0])
+        setSelectdImg(true)
     };
 
     const handleChange = (event, newValue) => {
@@ -157,17 +161,12 @@ const Create = () => {
                         </FormControl>
                         <input
                             accept="image/*"
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            multiple
+                            id="photoP"
+                            name="fotoP"
+                            className={classs.file}
                             type="file"
-                        />
-                        <label htmlFor="raised-button-file">
-                            <Button variant="contained" component="span">
-                                Cargar imagen
-                            </Button>
-                        </label>
-
+                            onChange={handleSelectdImg}
+                            />
                     </TabPanel>
                     <TabPanel value="2">
 
@@ -205,16 +204,12 @@ const Create = () => {
                         </FormControl>
                         <input
                             accept="image/*"
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            multiple
+                            id="photoS"
+                            name="fotoS"
+                            className={classs.file}
                             type="file"
-                        />
-                        <label htmlFor="raised-button-file">
-                            <Button variant="contained" component="span">
-                                Cargar imagen
-                            </Button>
-                        </label>
+                            onChange={handleSelectdImg}
+                            />
                     </TabPanel>
                 </TabContext>
 
@@ -238,5 +233,9 @@ const useStyles = makeStyles((theme) => ({
     input: {
         marginBottom: 500,
     },
+    file: {
+        margin: 10
+    },
+
 }));
 export default Create;

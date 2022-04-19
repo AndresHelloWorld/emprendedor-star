@@ -29,7 +29,7 @@ function Caru(props) {
 function Item(props) {
     return (
         <Paper>
-            <img src="https://www.academiaaudioplace.com/wp-content/uploads/2017/10/facebook-icon-preview-200x200.png"/>
+            <img src={props.item.urlImage} height="150px" width="150px"/>
             <h2>{props.item.name}</h2>
             <p>{props.item.description}</p>
 
