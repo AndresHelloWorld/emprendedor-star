@@ -1,13 +1,71 @@
 import React from 'react';
+import { makeStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom'
 import Box from '../components/Box'
+import '../CSS/NavBar.css'
+import app from '../firebase'
+import GridColection from '../components/content/gridColection'
+import Grid from "@material-ui/core/Grid";
+import { useEffect, useState } from 'react';
+import NavBar from '../components/content/navBar'
+import Detail from './detail'
 
-const Services = () => {
-    return(
-        <Box>
-            <h1>Services</h1>
-            <Link to='/home'>Home</Link>
-        </Box>
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1
+    },
+}));
+const Products = () => {
+    const [products, setProducts] = useState([])
+    const [itemSelectd, setItemSelectd] = useState({})
+    const [selectdProduct, setSelectdProduct] = useState(false)
+
+    const classes = useStyles();
+    const getProducts = async () => {
+        app.firestore().collection("service").onSnapshot((querySnapshot) => {
+            const docs = []
+            querySnapshot.forEach(doc => {
+                docs.push({ ...doc.data(), id: doc.id })
+
+            })
+            setProducts(docs);
+
+        })
+    }
+    const handleOpenModal = () => {
+        setSelectdProduct(true)
+        console.log(itemSelectd)
+    }
+    const handleCloseModal = () => {
+        setSelectdProduct(false)
+    }
+    useEffect(() => {
+        getProducts();
+    }, []);
+
+    return (
+        <div>
+            <NavBar />
+            <Detail open={selectdProduct} data={itemSelectd} close={handleCloseModal} />
+            <Box>
+
+                <h1>Servicios</h1>
+                <Grid container className={classes.root} spacing={2}>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent="center" spacing={2}>
+
+                            {products.map((p) => (
+                                <GridColection key={p.id} item={p} showDetails={() => {
+                                    handleOpenModal()
+                                    setItemSelectd(p);
+                                }
+                                } />
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+        </div>
     );
 }
-export default Services;
+export default Products;

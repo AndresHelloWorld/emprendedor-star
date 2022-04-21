@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 function Caru(props) {
     const [products, setProducts] = useState([])
     const getProducts = async () => {
-        app.firestore().collection("product").onSnapshot((querySnapshot) => {
+        app.firestore().collection("service").onSnapshot((querySnapshot) => {
             const docs = []
             querySnapshot.forEach(doc => {
                 docs.push({ ...doc.data(), id: doc.id })
@@ -29,12 +29,14 @@ function Caru(props) {
 function Item(props) {
     return (
         <Paper>
-            <img src={props.item.urlImage} height="150px" width="150px"/>
+            <img src={props.item.urlImage} height="150px" width="150px" />
             <h2>{props.item.name}</h2>
-            <p>{props.item.description}</p>
-
+            <h3 style={{
+                fontFamily: "'Roboto Mono', monospace",
+                fontWeight: "100"
+            }}>{props.item.user}</h3>
             <Button className="CheckButton">
-                Check it out!
+                Detalles
             </Button>
         </Paper>
     )

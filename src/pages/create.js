@@ -2,13 +2,13 @@ import React from 'react';
 import app from '../firebase'
 import Box from '../components/Box'
 import NumberFormat from 'react-number-format';
-import { TextField, NativeSelect, InputBase, Button, Input, InputAdornment, FormControl, Select, MenuItem, InputLabel } from '@mui/material'
+import { TextField, Button, FormControl } from '@mui/material'
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
-import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 function NumberFormatCustom(props) {
     const { inputRef, onChange, ...other } = props;
@@ -34,70 +34,73 @@ function NumberFormatCustom(props) {
 
 const Create = () => {
     const [name, setName] = React.useState("");
+    const [user, setUser] = React.useState("");
     const [price, setPrice] = React.useState();
     const [reference, setReference] = React.useState("");
+    const [email, setEmail] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [size, setSize] = React.useState("");
-    const [type, setType] = React.useState("");
     const [weight, setWeight] = React.useState(0);
     const [contact, setContact] = React.useState("");
     const [photo, setPhoto] = React.useState();
+    const [photo2, setPhoto2] = React.useState();
+    const [photo3, setPhoto3] = React.useState();
+    const [photo4, setPhoto4] = React.useState();
     const [photoUrl, setPhotoUrl] = React.useState("");
     const [skill, setSkill] = React.useState("");
     const [experience, setExperience] = React.useState("");
     const [selectdImg, setSelectdImg] = React.useState(false);
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = React.useState('2');
     const classs = useStyles();
 
     const addNew = async () => {
-        var collectionName = ""
-        collectionName = (value === "1") ? "product" : "service"
+        var collectionName = "service"
+        // collectionName = (value === "1") ? "product" : "service"
 
         const collectionRef = app.firestore().collection(collectionName)
         const storageRef = app.storage().ref();
         const archivoPath = storageRef.child(photo.name)
+        const archivoPath2 = storageRef.child(photo2.name)
+        const archivoPath3 = storageRef.child(photo3.name)
+        const archivoPath4 = storageRef.child(photo4.name)
         await archivoPath.put(photo)
+        await archivoPath2.put(photo2)
+        await archivoPath3.put(photo3)
+        await archivoPath4.put(photo4)
         const urlImgStor = await archivoPath.getDownloadURL();
-        if (value === "1") {
-            setPhotoUrl(urlImgStor)
-            console.log("Archivo cargado: ", photo.name, " Url: ", urlImgStor)
-            const docu = await collectionRef.doc(name).set(
-                {
-                    contact: contact,
-                    description: description,
-                    name: name,
-                    price: price,
-                    reference: reference,
-                    size: size,
-                    type: "Producto",
-                    weight: weight,
-                    urlImage: urlImgStor
+        const urlImgStor2 = await archivoPath2.getDownloadURL();
+        const urlImgStor3 = await archivoPath3.getDownloadURL();
+        const urlImgStor4 = await archivoPath4.getDownloadURL();
+        const docu = await collectionRef.doc(name).set(
+            {
+                contact: contact,
+                email: email,
+                user: user,
+                description: description,
+                experience: experience,
+                skill: skill,
+                name: name,
+                type: "Servicio",
+                urlImage: urlImgStor,
+                gallery: {
+                    urlImage1: urlImgStor2,
+                    urlImage2: urlImgStor3,
+                    urlImage3: urlImgStor4,
+
                 }
-            ).catch(error => {
-                console.error(error.message)
-            })
-            window.location.reload(false)
-        } else {
-            const collectionRef = app.firestore().collection(collectionName)
-            const docu = await collectionRef.doc(name).set(
-                {
-                    contact: contact,
-                    description: description,
-                    experience: experience,
-                    skill: skill,
-                    name: name,
-                    type: "Servicio",
-                    urlImage: urlImgStor
-                }
-            ).catch(error => {
-                console.error(error.message)
-            })
-            window.location.reload(false)
-        }
+            }
+        ).catch(error => {
+            console.error(error.message)
+        })
+        window.location.reload(false)
+
     }
 
     const handleSelectdImg = (e) => {
         setPhoto(e.target.files[0])
+        setPhoto2(e.target.files[1])
+        setPhoto3(e.target.files[2])
+        setPhoto4(e.target.files[3])
         setSelectdImg(true)
     };
 
@@ -110,14 +113,26 @@ const Create = () => {
                 <TabContext value={value}>
                     <AppBar position="static">
                         <TabList onChange={handleChange} aria-label="simple tabs example">
-                            <Tab label="Producto" value="1" />
+                            {/* <Tab label="Producto" value="1" /> */}
                             <Tab label="Servicio" value="2" />
                         </TabList>
                     </AppBar>
                     <FormControl className={classs.boxInput}>
-                        <TextField id="nombre" name="titulo" onChange={(e) => {
+                        <TextField id="titulo" name="titulo" onChange={(e) => {
                             setName(e.target.value)
                         }} label="Titulo*" variant="outlined" />
+
+                    </FormControl>
+                    <FormControl className={classs.boxInput}>
+                        <TextField id="nombre" name="nombre" onChange={(e) => {
+                            setUser(e.target.value)
+                        }} label="Nombre completo*" variant="outlined" />
+
+                    </FormControl>
+                    <FormControl className={classs.boxInput}>
+                        <TextField id="email" name="email" onChange={(e) => {
+                            setEmail(e.target.value)
+                        }} label="Correo*" variant="outlined" />
 
                     </FormControl>
                     <FormControl>
@@ -127,7 +142,7 @@ const Create = () => {
 
                     </FormControl>
 
-                    <TabPanel className={classs.boxInput} value="1">
+                    {/* <TabPanel className={classs.boxInput} value="1">
                         <FormControl>
                             <TextField id="reference" name="referen" label="Referencia del producto" onChange={(e) => { setReference(e.target.value) }} variant="outlined" />
                         </FormControl>
@@ -166,8 +181,8 @@ const Create = () => {
                             className={classs.file}
                             type="file"
                             onChange={handleSelectdImg}
-                            />
-                    </TabPanel>
+                        />
+                    </TabPanel> */}
                     <TabPanel value="2">
 
 
@@ -205,11 +220,13 @@ const Create = () => {
                         <input
                             accept="image/*"
                             id="photoS"
+                            multiple
                             name="fotoS"
                             className={classs.file}
                             type="file"
                             onChange={handleSelectdImg}
-                            />
+                        />
+                        
                     </TabPanel>
                 </TabContext>
 
