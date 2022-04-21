@@ -54,6 +54,17 @@ export default function GridProfile(props) {
                             </div>
                         </Card>
                     </Grid>
+                    <Grid item>
+                        <Card className={classes.paper}>
+                            <div>
+                                <CardMedia
+                                    className={classes.media}
+                                    image={props.item.gallery.urlImage3}
+                                    title="item"
+                                />
+                            </div>
+                        </Card>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

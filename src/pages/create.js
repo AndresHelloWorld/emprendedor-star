@@ -98,9 +98,12 @@ const Create = () => {
 
     const handleSelectdImg = (e) => {
         setPhoto(e.target.files[0])
-        setPhoto2(e.target.files[1])
-        setPhoto3(e.target.files[2])
-        setPhoto4(e.target.files[3])
+        setSelectdImg(true)
+    };
+    const handleSelectdImgGallery = (e) => {
+        setPhoto2(e.target.files[0])
+        setPhoto3(e.target.files[1])
+        setPhoto4(e.target.files[2])
         setSelectdImg(true)
     };
 
@@ -113,7 +116,6 @@ const Create = () => {
                 <TabContext value={value}>
                     <AppBar position="static">
                         <TabList onChange={handleChange} aria-label="simple tabs example">
-                            {/* <Tab label="Producto" value="1" /> */}
                             <Tab label="Servicio" value="2" />
                         </TabList>
                     </AppBar>
@@ -141,51 +143,7 @@ const Create = () => {
                         }} label="Número celular*" variant="outlined" />
 
                     </FormControl>
-
-                    {/* <TabPanel className={classs.boxInput} value="1">
-                        <FormControl>
-                            <TextField id="reference" name="referen" label="Referencia del producto" onChange={(e) => { setReference(e.target.value) }} variant="outlined" />
-                        </FormControl>
-                        <FormControl >
-                            <TextField id="size" name="size" label="Tamaño del producto" placeholder="10 * 10 cm" onChange={(e) => { setSize(e.target.value) }} variant="outlined" />
-                        </FormControl>
-                        <FormControl>
-                            <TextField id="weight" name="weight" label="Peso" placeholder="1 kg" onChange={(e) => { setWeight(e.target.value) }} variant="outlined" />
-                        </FormControl>
-                        <FormControl>
-                            <TextField
-                                label="Precio"
-                                onChange={(e) => { setPrice(e.target.value) }}
-                                name="price"
-                                id="price"
-                                InputProps={{
-                                    inputComponent: NumberFormatCustom,
-                                }}
-                            />
-                        </FormControl>
-
-                        <FormControl fullWidth>
-                            <TextField
-                                id="description"
-                                label="Descripción"
-                                onChange={(e) => { setDescription(e.target.value) }}
-                                multiline
-                                rows={6}
-                                variant="outlined"
-                            />
-                        </FormControl>
-                        <input
-                            accept="image/*"
-                            id="photoP"
-                            name="fotoP"
-                            className={classs.file}
-                            type="file"
-                            onChange={handleSelectdImg}
-                        />
-                    </TabPanel> */}
                     <TabPanel value="2">
-
-
 
                         <FormControl fullWidth>
                             <TextField
@@ -217,16 +175,30 @@ const Create = () => {
                                 variant="outlined"
                             />
                         </FormControl>
-                        <input
-                            accept="image/*"
-                            id="photoS"
-                            multiple
-                            name="fotoS"
-                            className={classs.file}
-                            type="file"
-                            onChange={handleSelectdImg}
-                        />
-                        
+                        <FormControl>
+                            Foto de portada*
+                            <input
+                                accept="image/*"
+                                id="photoS"
+                                name="fotoS"
+                                className={classs.file}
+                                type="file"
+                                onChange={handleSelectdImg}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            Fotos de galeria (Maximo 3)
+                            <input
+                                accept="image/*"
+                                id="photoG"
+                                multiple
+                                name="fotoG"
+                                className={classs.file}
+                                type="file"
+                                onChange={handleSelectdImgGallery}
+                            />
+                        </FormControl>
+
                     </TabPanel>
                 </TabContext>
 
