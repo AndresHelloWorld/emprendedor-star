@@ -29,7 +29,7 @@ function Caru(props) {
 function Item(props) {
     return (
         <Paper>
-            <img src={props.item.urlImage} height={200} />
+            <img alt-text={props.item.name} src={props.item.urlImage} height={200} />
             <h2>{props.item.name}</h2>
             <h3 style={{
                 fontFamily: "'Roboto Mono', monospace",

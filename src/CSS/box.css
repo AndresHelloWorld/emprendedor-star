@@ -6,8 +6,8 @@
 
 .contenedorMain {
     width: 100%;
-    margin-left: 15%;
-    max-width: 1100px;
+    margin-left: 10%;
+    max-width: 1500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
