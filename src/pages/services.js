@@ -13,7 +13,8 @@ import Detail from './detail'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+        margin: 2,
     },
     btnBack: {
         margin: 40,

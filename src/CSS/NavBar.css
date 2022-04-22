@@ -79,7 +79,7 @@ div>a {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #0d40e7;
+    background-color: #54d1d1;
     transform-origin: bottom right;
     transition: transform 0.25s ease-in-out;
 }
@@ -256,14 +256,13 @@ ul li {
 }
 
 #linkProd {
-    background-color: rgb(25, 92, 216);
+    background-color: #54d1d1;
     color: #fafafa;
     border-radius: 10px;
     padding: 10px;
     transition: all 0.5s;
 }
 #linkProd:hover {
-    background-color: rgb(20, 74, 175);
     color: #fafafa;
     border-radius: 10px;
     padding: 15px;

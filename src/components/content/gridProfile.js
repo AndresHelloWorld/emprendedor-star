@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
+import {Typography, Card, Grid, Button, CardMedia} from "@material-ui/core/";
+import '../../CSS/style.css'
 import CardContent from "@material-ui/core/CardContent";
-import Button from '@material-ui/core/Button';
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
 import Detail from '../../pages/detail'
 
 const useStyles = makeStyles((theme) => ({
@@ -15,14 +12,15 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         height: 350,
-        width: 500
+        width: 450
     },
     control: {
         padding: theme.spacing(2)
     },
     media: {
         height: 450
-    }
+    },
+    
 }));
 
 export default function GridProfile(props) {
@@ -38,7 +36,7 @@ export default function GridProfile(props) {
                                 <CardMedia
                                     className={classes.media}
                                     image={props.item.gallery.urlImage1}
-                                    title="item"
+                                    title={props.item.name}
                                 />
                             </div>
                         </Card>
@@ -49,7 +47,7 @@ export default function GridProfile(props) {
                                 <CardMedia
                                     className={classes.media}
                                     image={props.item.gallery.urlImage2}
-                                    title="item"
+                                    title={props.item.name}
                                 />
                             </div>
                         </Card>
@@ -60,7 +58,7 @@ export default function GridProfile(props) {
                                 <CardMedia
                                     className={classes.media}
                                     image={props.item.gallery.urlImage3}
-                                    title="item"
+                                    title={props.item.name}
                                 />
                             </div>
                         </Card>

@@ -1,7 +1,17 @@
+import { createTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { Button } from "@material-ui/core";
+import { green, purple, blue } from '@material-ui/core/colors';
 import React from 'react';
 import { Link } from 'react-router-dom'
-
+const ColorButton = withStyles((theme) => ({
+    root: {
+      color: theme.palette.getContrastText(blue[600]),
+      backgroundColor: blue[500],
+      '&:hover': {
+        backgroundColor: blue[700],
+      },
+    },
+  }))(Button);
 const NavBar = () => {
     return (
         <div className="TopArea">
@@ -10,7 +20,8 @@ const NavBar = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     marginTop: "0vh",
-                    padding: "3%"
+                    padding: "3%",
+                    backgroundColor: "#bbe5e5"
                 }}
             >
                 <div style={{ marginLeft: "2vw" }}>
@@ -38,10 +49,10 @@ const NavBar = () => {
                             ABOUT
                         </Button>
                     </a>
-                    <a className="underLine2" href="/">
-                        <Button variant="outlined" color="primary">
+                    <a href="/">
+                        <ColorButton variant="outlined" color="primary">
                             CONTACT
-                        </Button>
+                        </ColorButton>
                     </a>
                 </div>
             </div>

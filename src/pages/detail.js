@@ -1,27 +1,39 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import { Toolbar, List, IconButton, Typography, Slide, Dialog, Avatar, Icon, AppBar, Grid } from "@material-ui/core/";
+import Box from '../components/Box'
+import '../CSS/style.css'
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import CloseIcon from "@material-ui/icons/Close";
-import Slide from "@material-ui/core/Slide";
 import GridProfile from '../components/content/gridProfile'
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    large: {
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+    },
     appBar: {
+        background: '#54d1d1',
         position: "relative"
     },
     title: {
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(90),
+        fontSize: 35,
         flex: 1
-    }
+    },
+    subTitle: {
+        marginTop: 50,
+    },
+    userName: {
+        marginTop: 30,
+    },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -57,8 +69,53 @@ export default function Detail(props) {
                     </Toolbar>
                 </AppBar>
                 <List>
-                    {props.data.description}
-                    <GridProfile item={props.data} />
+                    <Box>
+                        <div className={classes.root}>
+                            <Avatar alt={props.data.user} src={props.data.urlImage} className={classes.large} />
+                            <Typography className={classes.userName} gutterBottom variant="h4" component="h1">
+                                {props.data.user}
+                            </Typography>
+                        </div>
+                        <Grid container spacing={1}>
+
+                            <Grid xs={6} className="grid">
+                                <Typography className={classes.subTitle} gutterBottom variant="h5" component="h2">
+                                    Experiencia
+                                </Typography>
+                                <Typography>
+                                    {props.data.experience}
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} className="grid">
+                                <Typography className={classes.subTitle} gutterBottom variant="h5" component="h2">
+                                    Descripción
+                                </Typography>
+                                <Typography>
+                                    {props.data.description}
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} className="grid">
+                                <Typography className={classes.subTitle} gutterBottom variant="h5" component="h2">
+                                    Habilidades
+                                </Typography>
+                                <Typography>
+                                    {props.data.skill}
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6}>
+                                <Typography gutterBottom className={classes.subTitle} variant="h5" component="h2">
+
+                                    <a target="_blank" href={`https://api.whatsapp.com/send?phone=+57${props.data.contact}`} className='css-button-3d--blue'>Contacto <WhatsAppIcon style={{ fontSize: 30 }} /> </a>
+                                </Typography>
+                            </Grid>
+                            <Grid xs={12} className="grid">
+                                <Typography gutterBottom className={classes.subTitle} variant="h5" component="h2">
+                                    Galeria
+                                </Typography>
+                                <GridProfile item={props.data} />
+                            </Grid>
+                        </Grid>
+                    </Box>
                 </List>
             </Dialog>
         </div>

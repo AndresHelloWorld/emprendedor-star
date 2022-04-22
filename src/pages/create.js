@@ -35,18 +35,18 @@ function NumberFormatCustom(props) {
 const Create = () => {
     const [name, setName] = React.useState("");
     const [user, setUser] = React.useState("");
-    const [price, setPrice] = React.useState();
-    const [reference, setReference] = React.useState("");
+    // const [price, setPrice] = React.useState();
+    // const [reference, setReference] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [size, setSize] = React.useState("");
-    const [weight, setWeight] = React.useState(0);
+    // const [size, setSize] = React.useState("");
+    // const [weight, setWeight] = React.useState(0);
     const [contact, setContact] = React.useState("");
     const [photo, setPhoto] = React.useState();
     const [photo2, setPhoto2] = React.useState();
     const [photo3, setPhoto3] = React.useState();
     const [photo4, setPhoto4] = React.useState();
-    const [photoUrl, setPhotoUrl] = React.useState("");
+    // const [photoUrl, setPhotoUrl] = React.useState("");
     const [skill, setSkill] = React.useState("");
     const [experience, setExperience] = React.useState("");
     const [selectdImg, setSelectdImg] = React.useState(false);
