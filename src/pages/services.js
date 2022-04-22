@@ -39,7 +39,6 @@ const Products = () => {
     }
     const handleOpenModal = () => {
         setSelectdProduct(true)
-        console.log(itemSelectd)
     }
     const handleCloseModal = () => {
         setSelectdProduct(false)
