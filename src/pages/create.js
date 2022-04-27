@@ -5,10 +5,14 @@ import NumberFormat from 'react-number-format';
 import { TextField, Button, FormControl } from '@mui/material'
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import { makeStyles } from '@material-ui/core/styles'
+import Select from '@material-ui/core/Select';
+
 
 function NumberFormatCustom(props) {
     const { inputRef, onChange, ...other } = props;
@@ -46,7 +50,7 @@ const Create = () => {
     const [photo2, setPhoto2] = React.useState();
     const [photo3, setPhoto3] = React.useState();
     const [photo4, setPhoto4] = React.useState();
-    // const [photoUrl, setPhotoUrl] = React.useState("");
+    const [category, setCategory] = React.useState("");
     const [skill, setSkill] = React.useState("");
     const [experience, setExperience] = React.useState("");
     const [selectdImg, setSelectdImg] = React.useState(false);
@@ -76,6 +80,7 @@ const Create = () => {
                 contact: contact,
                 email: email,
                 user: user,
+                category: category,
                 description: description,
                 experience: experience,
                 skill: skill,
@@ -142,6 +147,22 @@ const Create = () => {
                             setContact(e.target.value)
                         }} label="Número celular*" variant="outlined" />
 
+                    </FormControl>
+                    <FormControl variant="outlined">
+                        <InputLabel id="demo-simple-select-outlined-label">Categoria</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            label="category"
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value='Informatica'>Informatica</MenuItem>
+                            <MenuItem value='Hogar'>Hogar</MenuItem>
+                            <MenuItem value='Transporte'>Transporte</MenuItem>
+                        </Select>
                     </FormControl>
                     <TabPanel value="2">
 
