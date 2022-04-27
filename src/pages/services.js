@@ -7,6 +7,7 @@ import app from '../firebase'
 import GridColection from '../components/content/gridColection'
 import Grid from "@material-ui/core/Grid";
 import { useEffect, useState } from 'react';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import NavBar from '../components/content/navBar'
 import Paper from '@material-ui/core/Paper';
 import { Breadcrumbs, Typography } from '@material-ui/core/';
@@ -20,6 +21,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,24 +46,32 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
+    iconButton: {
+        padding: 20,
+        marginLeft: 60,
+    },
 
 }));
+
 const Products = () => {
+    const classes = useStyles();
     const [products, setProducts] = useState([])
     const [itemSelectd, setItemSelectd] = useState({})
     const [selectdProduct, setSelectdProduct] = useState(false)
-
-    const classes = useStyles();
+    const [filterSelectd, setFilterSelectd] = useState(false)
+    const [filterCategory, setFilterCategory] = useState('')
     const getProducts = async () => {
         app.firestore().collection("service").onSnapshot((querySnapshot) => {
             const docs = []
             querySnapshot.forEach(doc => {
                 docs.push({ ...doc.data(), id: doc.id })
-
             })
             setProducts(docs);
-
         })
+    }
+    const filterData = (value) => {
+        setFilterSelectd(true)
+        setFilterCategory(value)
     }
     const handleOpenModal = () => {
         setSelectdProduct(true)
@@ -101,19 +111,6 @@ const Products = () => {
                                 <Divider className={classes.divider} orientation="vertical" />
                             </div>
                             <div className={classes.paper2}>
-
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">Ordenar</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                    >
-                                        <MenuItem value=''>None</MenuItem>
-                                        <MenuItem value={1}>Op 1</MenuItem>
-                                        <MenuItem value={2}>Op1</MenuItem>
-                                        <MenuItem value={3}>Op3</MenuItem>
-                                    </Select>
-                                </FormControl>
                             </div>
                         </Paper>
                     </Grid>
@@ -123,31 +120,44 @@ const Products = () => {
                                 <Typography variant="h7"
                                     color="textSecondary"
                                     component="h3">
-                                    Filtrar
+                                    Filtrar por categoria
+                                    {filterSelectd === true &&
+                                        <Tooltip title='Limpiar filtro'>
+                                            <IconButton onClick={() => {
+                                                setFilterCategory('')
+                                                setFilterSelectd(false)
+                                            }} className={classes.iconButton}>
+                                                <DeleteSweepIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    }
                                 </Typography>
-                                <MenuItem>Categoria 1</MenuItem>
-                                <MenuItem>Categoria 2</MenuItem>
-                                <MenuItem>Categoria 3</MenuItem>
-                                <MenuItem>Categoria 4</MenuItem>
-                                <MenuItem>Categoria 5</MenuItem>
-                                <MenuItem>Categoria 6</MenuItem>
-                                <MenuItem>Categoria 7</MenuItem>
-                                <MenuItem>Categoria 8</MenuItem>
-                                <MenuItem>Categoria 9</MenuItem>
+                                <MenuItem onClick={() => filterData('Hogar')}>Hogar</MenuItem>
+                                <MenuItem onClick={() => filterData('Transporte')}>Transporte</MenuItem>
+                                <MenuItem onClick={() => filterData('Informatica')}>Informatica</MenuItem>
 
                             </MenuList>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={10}>
                         <Grid container justifyContent="center" spacing={2}>
+                            {filterSelectd == false &&
+                                products.map((p) => (
+                                    <GridColection key={p.id} item={p} showDetails={() => {
+                                        handleOpenModal()
+                                        setItemSelectd(p);
+                                    }} />
+                                ))
+                            }
+                            {filterSelectd == true &&
+                                products.filter(item => item.category == filterCategory).map((p) => (
+                                    <GridColection key={p.id} item={p} showDetails={() => {
+                                        handleOpenModal()
+                                        setItemSelectd(p);
+                                    }} />
+                                ))
+                            }
 
-                            {products.map((p) => (
-                                <GridColection key={p.id} item={p} showDetails={() => {
-                                    handleOpenModal()
-                                    setItemSelectd(p);
-                                }
-                                } />
-                            ))}
                         </Grid>
                     </Grid>
                 </Grid>
